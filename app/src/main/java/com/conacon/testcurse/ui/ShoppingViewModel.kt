@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.conacon.testcurse.data.local.ShoppingItem
 import com.conacon.testcurse.data.remote.responses.ImageResponse
+import com.conacon.testcurse.other.Constants
 import com.conacon.testcurse.other.Event
 import com.conacon.testcurse.other.Resource
 import com.conacon.testcurse.repositories.ShoppingRepository
@@ -44,7 +45,30 @@ class ShoppingViewModel @Inject constructor(
     }
 
     fun insertShoppingItem(name: String, amountString: String, priceString: String) {
-
+        if(name.isEmpty() || amountString.isEmpty() || priceString.isEmpty()) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error( null,"The fields must not be empty",)))
+            return
+        }
+        if(name.length > Constants.MAX_NAME_LENGTH) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error(null,"The name of the item" +
+                    "must not exceed ${Constants.MAX_NAME_LENGTH} characters")))
+            return
+        }
+        if(priceString.length > Constants.MAX_PRICE_LENGTH) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error(null,"El precio del item" +
+                    "no debe sobrepasar los ${Constants.MAX_PRICE_LENGTH} characters")))
+            return
+        }
+        val amount = try {
+            amountString.toInt()
+        } catch(e: Exception) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error(null,"Ingrese una cantidad valida")))
+            return
+        }
+        val shoppingItem = ShoppingItem(name, amount, priceString.toFloat(), _curImageUrl.value ?: "")
+        insertShoppingItemIntoDb(shoppingItem)
+        setCurImageUrl("")
+        _insertShoppingItemStatus.postValue(Event(Resource.success(shoppingItem)))
     }
 
     fun searchForImage(imageQuery: String) {
