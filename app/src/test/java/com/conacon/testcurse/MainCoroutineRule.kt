@@ -6,7 +6,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import kotlin.coroutines.CoroutineContext
+
+/**
+ * Clase nesesaria para generar un dispacher que corra en el test ya que
+ * usar viewmodelScope.launch necesita lifecycle para su coroutina
+ */
 
 class MainCoroutineRule @OptIn(ExperimentalCoroutinesApi::class) constructor(
     private val dispacher: CoroutineDispatcher = StandardTestDispatcher()

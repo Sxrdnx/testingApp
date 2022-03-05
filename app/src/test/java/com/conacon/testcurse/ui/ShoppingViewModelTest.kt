@@ -16,6 +16,10 @@ class ShoppingViewModelTest{
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
+    /**
+     * Rule que permite que los hilos se ejecuten en el mainThread
+     * de manera secuencial y permite la espera de resultados en los livedata
+     */
     @get: Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -57,6 +61,14 @@ class ShoppingViewModelTest{
         viewmodel.insertShoppingItem("alex","10","46")
         val value = viewmodel.insertShoppingItemStatus.getOrAwaitValueTest()
         assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.SUCCESS)
+    }
+
+    @Test
+    fun `observe current image when set a value`(){
+        val currentImage ="ola.jpg"
+        viewmodel.setCurImageUrl(currentImage)
+        val value = viewmodel.curImageUrl.getOrAwaitValueTest()
+        assertThat(value).isEqualTo(currentImage)
     }
 
 }

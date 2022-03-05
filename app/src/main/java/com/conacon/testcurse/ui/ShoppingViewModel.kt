@@ -72,7 +72,14 @@ class ShoppingViewModel @Inject constructor(
     }
 
     fun searchForImage(imageQuery: String) {
-
+        if(imageQuery.isEmpty()) {
+            return
+        }
+        _images.value = Event(Resource.loading(null))
+        viewModelScope.launch {
+            val response = repository.searchForImage(imageQuery)
+            _images.value = Event(response)
+        }
     }
 
 }
