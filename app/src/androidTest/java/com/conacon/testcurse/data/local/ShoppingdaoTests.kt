@@ -7,6 +7,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.conacon.testcurse.getOrAwaitValue
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 
 import kotlinx.coroutines.runBlocking
 
@@ -15,6 +17,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * RunWith-la anotacion se usa pues junit es una libreria para testear codigo java y kotlin pero
@@ -24,25 +28,24 @@ import org.junit.runner.RunWith
  */
 
 
-@RunWith(AndroidJUnit4::class)
+
 @SmallTest
+@HiltAndroidTest
 class ShoppingDaoTests {
+    @get: Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @get: Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database: ShoppingIteDatabase
+    @Inject
+    @Named("test_db")
+    lateinit var database: ShoppingIteDatabase
     private  lateinit var  shoppinDao: ShoppinDao
+
     @Before
     fun setUp(){
-        /**
-         * este constructor (inMemoriaDatabase) implica que la db se generara en ram y no sera una db real
-         * solo sera asi para nuestro caso de uso
-         */
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            ShoppingIteDatabase::class.java
-        ).allowMainThreadQueries().build()
+        hiltRule.inject()
         shoppinDao = database.shoppingDao()
     }
 
