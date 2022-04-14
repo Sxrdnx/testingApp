@@ -6,9 +6,12 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.conacon.testcurse.getOrAwaitValue
+import com.conacon.testcurse.launchFragmentInHiltContainer
+import com.conacon.testcurse.ui.ShoppingFragment
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 import kotlinx.coroutines.runBlocking
 
@@ -57,6 +60,13 @@ class ShoppingDaoTests {
 
 
     @Test
+    fun testLaunchFragmentInHiltContainer(){
+        launchFragmentInHiltContainer<ShoppingFragment>{
+
+        }
+    }
+
+    @Test
     fun insertShoppingItem()= runBlocking {
         val item = ShoppingItem("name",1,2f,"url", id = 1)
         shoppinDao.insertShoppingItem(item)
@@ -66,6 +76,7 @@ class ShoppingDaoTests {
         assertThat(allShoppingItems).contains(item)
 
     }
+
 
     @Test
     fun deleteShoppingItem()= runBlocking {
@@ -77,7 +88,6 @@ class ShoppingDaoTests {
         assertThat(allShoppingItems).doesNotContain(item)
 
     }
-
 
     @Test
     fun observeTotalPriceSum()= runBlocking{
