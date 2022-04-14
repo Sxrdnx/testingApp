@@ -10,7 +10,14 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
+/**
+ * Para que el test funcione es necesario el colocar la anotacion
+ * [@ExperimetalCoroutinesApi]
+ * y algunos dispositivos como xiomi debes de aceptar permisos extra para lansar la activity de
+ * testing
+ */
+
+
 inline fun <reified T: Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
     themeResId: Int = R.style.Theme_AppCompat,
