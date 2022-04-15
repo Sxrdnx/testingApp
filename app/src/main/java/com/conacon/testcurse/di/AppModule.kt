@@ -2,6 +2,9 @@ package com.conacon.testcurse.di
 
 import android.content.Context
 import androidx.room.Room
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.conacon.testcurse.R
 import com.conacon.testcurse.data.local.ShoppinDao
 import com.conacon.testcurse.data.local.ShoppingIteDatabase
 import com.conacon.testcurse.data.remote.PixaBayAPI
@@ -54,6 +57,16 @@ object AppModule {
             .baseUrl(BASE_URL)
             .build()
             .create(PixaBayAPI::class.java)
-
     }
+
+    @Singleton
+    @Provides
+    fun provideGlideInstance(
+        @ApplicationContext context: Context
+    ) = Glide.with(context).setDefaultRequestOptions(
+        RequestOptions()
+            .placeholder(R.drawable.ic_image)
+            .error(R.drawable.ic_image)
+    )
+
 }
