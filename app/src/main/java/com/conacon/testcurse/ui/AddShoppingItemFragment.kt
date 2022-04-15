@@ -32,7 +32,7 @@ class AddShoppingItemFragment: Fragment(R.layout.fragment_add_shopping_item) {
 
         bindig.ivShoppingImage.setOnClickListener {
             findNavController().navigate(
-                AddShoppingItemFragmentDirections.actionAddShoppingItemFragmentToImagePickFragment()
+                 AddShoppingItemFragmentDirections.actionAddShoppingItemFragmentToImagePickFragment()
             )
         }
 
