@@ -15,8 +15,6 @@ class ShoppingFragmentFactory @Inject constructor(
             ImagePickFragment::class.java.name ->{ImagePickFragment(imageAdapter)}
             else -> super.instantiate(classLoader, className)
         }
-
-        
     }
 
 }

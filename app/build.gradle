@@ -8,6 +8,10 @@ plugins {
 
 android {
     compileSdk 31
+
+    testOptions {
+        animationsDisabled = true
+    }
     buildFeatures{
         viewBinding true
     }
@@ -115,5 +119,8 @@ dependencies {
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
     debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
+    //test rescyclerview espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+
 }
 
